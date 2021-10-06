@@ -123,7 +123,9 @@ barplot_stat<-function(x){
 }
 
 
-
+score_cal<-function(BCseq,BClength){
+	return((length(BCseq)-floor(length(BCseq)/10)-(3*floor(length(BCseq)/10))-3*BClength))
+}
 
 
 
