@@ -16,7 +16,7 @@ mat  =  nucleotideSubstitutionMatrix(match = 1, mismatch = -3)
 BCseq=ReadFasta(BCseq)
 BClength=str_count(as.character(BCseq$VBC),"N")
 reads<-read.table(reads,header=T,stringsAsFactors=F)
-alig_score<-(length(BCseq)-floor(length(BCseq)/10)-(3*floor(length(BCseq)/10))-3*BClength)
+alig_score<-score_cal(BCseq,BClength)
 #environment() <- .GlobalEnv
 
 #find virus barcode and create output file
