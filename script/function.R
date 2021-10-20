@@ -200,9 +200,9 @@ relation_call<-function(clone,thresh){
 	clone_names<-lapply(c(1:length(clone_names)),change_form_stat,clone_names=clone_names)
 	clone_names<-do.call("rbind",clone_names)
 	clone<-merge(clone,clone_names,by="Virus.BC")
-	#write.csv(clone,"clone.csv",row.names = F,quote=F)
+	write.csv(clone,"clone.csv",row.names = F,quote=F)
 	clone<-clone[clone$clone %in%  as.character(data.frame(table(clone$clone))$Var1[data.frame(table(clone$clone))$Freq>1]),]
-	#write.csv(clone,"clone_2.csv",row.names = F,quote=F)
+	write.csv(clone,"clone_2.csv",row.names = F,quote=F)
 
 	pdf("clone_size_log2.pdf",width = 4,height = 3)
 	plot(density(log2(table(clone$clone))))
@@ -218,7 +218,7 @@ relation_call<-function(clone,thresh){
   		row.names(jac_sample_sub)<-clu
   		jac_sample<-c(jac_sample,list(jac_sample_sub))
 	}
-	#saveRDS(jac_sample,"jac_sample.rds")
+	saveRDS(jac_sample,"jac_sample.rds")
 
 	clone_tab<-data.frame(acast(clone,clone~Cluster,fun.aggregate = sum))
 	clu<-names(clone_tab)
