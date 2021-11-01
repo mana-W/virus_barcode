@@ -22,7 +22,9 @@ alig_score<-score_cal(BCseq,BClength)
 
 #find virus barcode and create output file
 print("Finding barcode ...")
+print(date())
 reads<-find_barcode_parallel(dat=reads,n=16)
+print(date())
 pdf("reads_VBC_length.pdf",width=3,height=3)
 plot(density(reads$VBC_len),main="Length density")
 dev.off()
