@@ -5,7 +5,8 @@
 
 # need to in put virus.fa (random seq : NNNNNNNNNN...)
 
-source("function.R")
+scriptdir<-system("echo $(dirname $(readlink -f $0))",inter=T)
+source(paste0(scriptdir,"/function.R"))
 
 args=commandArgs(T)
 
