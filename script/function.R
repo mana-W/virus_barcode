@@ -200,11 +200,11 @@ relation_call<-function(clone,thresh){
 	clone_names<-lapply(c(1:length(clone_names)),change_form_stat,clone_names=clone_names)
 	clone_names<-do.call("rbind",clone_names)
 	clone<-merge(clone,clone_names,by="Virus.BC")
-	write.csv(clone,"clone.csv",row.names = F,quote=F)
+	write.csv(clone,"res/clone.csv",row.names = F,quote=F)
 	clone<-clone[clone$clone %in%  as.character(data.frame(table(clone$clone))$Var1[data.frame(table(clone$clone))$Freq>1]),]
-	write.csv(clone,"clone_2.csv",row.names = F,quote=F)
+	write.csv(clone,"res/clone_2.csv",row.names = F,quote=F)
 
-	pdf("clone_size_log2.pdf",width = 4,height = 3)
+	pdf("res/clone_size_log2.pdf",width = 4,height = 3)
 	plot(density(log2(table(clone$clone))))
 	dev.off()
 
@@ -218,23 +218,23 @@ relation_call<-function(clone,thresh){
   		row.names(jac_sample_sub)<-clu
   		jac_sample<-c(jac_sample,list(jac_sample_sub))
 	}
-	saveRDS(jac_sample,"jac_sample.rds")
+	saveRDS(jac_sample,"res/jac_sample.rds")
 
 	clone_tab<-data.frame(acast(clone,clone~Cluster,fun.aggregate = sum))
 	clu<-names(clone_tab)
 	all_jac<-data.frame(matrix(unlist(lapply(clu,all_jac_stat1,clone_stat_data=clone_tab,clu=clu)),ncol=length(clu)))
 	names(all_jac)<-clu
 	row.names(all_jac)<-clu
-	write.csv(all_jac,"all_jac.csv",quote=F)
+	write.csv(all_jac,"res/all_jac.csv",quote=F)
 
 	all_p<-lapply(clu,barplot_stat,clu=clu,jac_sample=jac_sample,all_jac=all_jac)
-	pdf("similarity_box.pdf",width = 3.5,height = 2)
+	pdf("res/similarity_box.pdf",width = 3.5,height = 2)
 		for(p in all_p){
   			print(p)
 		}
 	dev.off()
 
-	pdf("clust.pdf",width = 4,height = 4)
+	pdf("res/clust.pdf",width = 4,height = 4)
 		plot(hclust(dist(all_jac)))
 	dev.off()
 
@@ -248,14 +248,14 @@ relation_call<-function(clone,thresh){
 	names(all_p)<-clu
 	row.names(all_p)<-clu
 
-	write.csv(all_ob,"all_obpre.csv",quote=F)
-	write.csv(all_p,"all_pvalue.csv",quote=F)
+	write.csv(all_ob,"res/all_obpre.csv",quote=F)
+	write.csv(all_p,"res/all_pvalue.csv",quote=F)
 
-	pheatmap(all_ob,cluster_rows = F,cluster_cols = F,color = rev(c(colorRampPalette(colors = c("#D73027","#FDAE61"))(200),colorRampPalette(colors =c("#FDAE61","white"))(30),colorRampPalette(colors = c("white","#4575B4"))(20))),file="obspre.pdf",width = 3.3,height = 3)
+	pheatmap(all_ob,cluster_rows = F,cluster_cols = F,color = rev(c(colorRampPalette(colors = c("#D73027","#FDAE61"))(200),colorRampPalette(colors =c("#FDAE61","white"))(30),colorRampPalette(colors = c("white","#4575B4"))(20))),file="res/obspre.pdf",width = 3.3,height = 3)
 	dev.new()
-	pheatmap(all_p,cluster_rows = F,cluster_cols = F,color = c(colorRampPalette(colors = c("#D73027","#FDAE61"))(20),colorRampPalette(colors =c("#FDAE61","white"))(30),colorRampPalette(colors = c("white","#4575B4"))(200)),file="pvalue.pdf",width = 3.3,height = 3)
+	pheatmap(all_p,cluster_rows = F,cluster_cols = F,color = c(colorRampPalette(colors = c("#D73027","#FDAE61"))(20),colorRampPalette(colors =c("#FDAE61","white"))(30),colorRampPalette(colors = c("white","#4575B4"))(200)),file="res/pvalue.pdf",width = 3.3,height = 3)
 	dev.new()
-	pheatmap(all_jac,cluster_rows = F,cluster_cols = F,color = rev(c(colorRampPalette(colors = c("#D73027","#FDAE61"))(200),colorRampPalette(colors =c("#FDAE61","white"))(30),colorRampPalette(colors = c("white","#4575B4"))(20))),file="jaccard.pdf",width = 3.3,height = 3)
+	pheatmap(all_jac,cluster_rows = F,cluster_cols = F,color = rev(c(colorRampPalette(colors = c("#D73027","#FDAE61"))(200),colorRampPalette(colors =c("#FDAE61","white"))(30),colorRampPalette(colors = c("white","#4575B4"))(20))),file="res/jaccard.pdf",width = 3.3,height = 3)
 	dev.new()
 
 	all_jac$Cluster<-row.names(all_jac)
@@ -269,7 +269,7 @@ relation_call<-function(clone,thresh){
 
 	dat<-merge(all_jac,all_p,by=c("Cluster","Cluster2"))
 
-	pdf("pop_all.pdf",width = 5.5,height = 4)
+	pdf("res/pop_all.pdf",width = 5.5,height = 4)
 		ggplot(dat,aes(Cluster,Cluster2))+
   		geom_point(aes(size=jaccard,color=-log2(pvalue+0.0001)))+
   		scale_colour_gradient(low="white",high="brown4")+
@@ -281,7 +281,7 @@ relation_call<-function(clone,thresh){
 	dat$jaccard[dat$pvalue>0.05]<-0
 	dat$pvalue[dat$pvalue>0.05]<-1
 
-	pdf("pop_sig.pdf",width = 5.5,height = 4)
+	pdf("res/pop_sig.pdf",width = 5.5,height = 4)
 	ggplot(dat,aes(Cluster,Cluster2))+
   		geom_point(aes(size=jaccard,color=-log2(pvalue+0.0001)))+
   		scale_colour_gradient(low="white",high="brown4")+
