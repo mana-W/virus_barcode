@@ -12,7 +12,7 @@ sample_ascore_fun<-function(type1,type2,data){
 
 library(ggplot2)
 args<-commandArgs(T)
-data<-read.csv(args[1],header=T)
+data<-read.table(args[1],header=T)
 Prog_1000<-unlist(lapply(rep("Prog",1000),sample_ascore_fun,type2="Neu",data=data))
 Neu_1000<-unlist(lapply(rep("Neu",1000),sample_ascore_fun,type2="Prog",data=data))
 Prog_1000<-data.frame(Ascore=Prog_1000,Type="Prog")
