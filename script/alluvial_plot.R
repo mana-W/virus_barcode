@@ -36,6 +36,9 @@ celltype_1<-data.frame(table(celltype_1$Cluster)/dim(celltype_1)[1])
 celltype_2<-data.frame(table(celltype_2$Cluster)/dim(celltype_2)[1])
 celltype_1$Freq<-300*(celltype_1$Freq)
 celltype_2$Freq<-300*(celltype_2$Freq)
+if else
+celltype_1$Freq<-30
+celltype_2$Freq<-30
 
 data$group<-unlist(lapply(data$Cluster2,function(x){strsplit(x,"_")[[1]][1]}))
 which(duplicated(data[,c(1,2)]))
