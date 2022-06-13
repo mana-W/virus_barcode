@@ -50,14 +50,14 @@ print("raw")
 print(c("reads :",dim(reads)[1]))
 print(c("cell barcodes :",length(unique(as.character(reads$Cell.BC)))))
 
-passreads<-passnreads(file="CB_UMI_barcode.tsv",reads_threshold = 5)
+passreads<-passnreads(file="res/CB_UMI_barcode.tsv",reads_threshold = 5)
 reads<-reads[paste0(reads$Cell.BC,reads$UMI,reads$Virus.BC) %in% passreads,]
 print("more than 5 reads")
 print(c("reads :",dim(reads)[1]))
 print(c("cell barcodes :",length(unique(as.character(reads$Cell.BC)))))
 write.table(reads,"res/CB_UMI_barcode_reads.tsv",row.names=F,quote=F)
 
-passcells<-passncells(file = "CB_UMI_barcode_reads.tsv",UMI_threshold = 1)
+passcells<-passncells(file = "res/CB_UMI_barcode_reads.tsv",UMI_threshold = 1)
 reads<-reads[reads$Cell.BC %in% passcells,]
 print("cells with more than 2 UMIs")
 print(c("reads :",dim(reads)[1]))
