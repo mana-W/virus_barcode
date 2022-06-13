@@ -42,7 +42,7 @@ plot(density(reads$VBC_len),main="Length density")
 dev.off()
 reads<-reads[reads$VBC_len <= (BClength+5) & reads$VBC_len >= (BClength-5),]
 write.table(reads,"res/CB_UMI_barcode.tsv",row.names=F,quote=F)
-print("Finished")
+print("Align Finished")
 
 #filter noise & confirm true barcode
 print("Filter reads ...")
