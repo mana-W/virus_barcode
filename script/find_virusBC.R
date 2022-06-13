@@ -87,7 +87,7 @@ write.table(clone,"res/clone_final.tsv",row.names=F,quote=F)
 if(length(args)<4){
 	thresh=1
 }else{
-	thresh=as.numeric(args[5])
+	thresh=as.numeric(args[4])
 }
 
 relation_call(clone,thresh)
