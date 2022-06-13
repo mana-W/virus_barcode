@@ -97,6 +97,7 @@ r_cbvb_stat<-function(x){
 		return(x[1])
 	}
 }
+		 
 
 final_barcode<-function(cv_clu,reads_data){
 	cbvb<-apply(cv_clu,1,split_clu)
