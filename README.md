@@ -12,7 +12,7 @@ you can use Barlin to extract all of this tags and calculate the intergroup simi
 Barlin can only work on typical Linux systems.
 
 ```
-git clone https://github.com/mana-W/chenlab_you.git
+git clone https://github.com/mana-W/virus_barcode.git
 ```
 
 ## Dependencies
