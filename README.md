@@ -46,7 +46,7 @@ Contents in column 'Cluster' have to be like: group_annotation
 ### Running<br />
 **Step1**: Extract cell barcode and UMIs, prepare input file for next step.
 ```
-sh CB_UMI.sh R1.fastq.gz R2.fastq.gz
+sh CB_UMI.sh path/R1.fastq.gz path/R2.fastq.gz
 ```
 
 **Step2**: Recover virus barcodes of cells and relationship between each pair of clusters.
