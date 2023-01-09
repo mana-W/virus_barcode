@@ -108,7 +108,7 @@ write.csv(clone,"clone.csv",row.names = F,quote=F)
 
 clonetime1 <- unique(clone$time[clone$Cluster %in% clone_1$Cluster])
 clonetime2 <- unique(clone$time[clone$Cluster %in% clone_2$Cluster])
-clone1 <- clone[clone$time == clonetime,]
+clone1 <- clone[clone$time == clonetime1,]
 tab1 <- acast(clone1,clone~Cluster)
 tab1 <- t(apply(tab1,1,function(x){x/sum(x)}))
 tab1 <- data.frame(tab1)
