@@ -65,6 +65,7 @@ clone_1<-read.table(args[2],header=T,stringsAsFactors = F)
 clone_2<-read.table(args[3],header=T,stringsAsFactors = F)
 clone<-rbind(clone_1,clone_2)
 thresh=as.numeric(args[1])
+prothresh = as.numeric(args[4])
 
 clone_tab<-data.frame(table(clone$Virus.BC))
 clone_tab$Var1<-as.character(clone_tab$Var1)
@@ -103,10 +104,16 @@ rm(n,i,ind,test)
 clone_names<-lapply(c(1:length(clone_names)),change_form_stat)
 clone_names<-do.call("rbind",clone_names)
 clone<-merge(clone,clone_names,by="Virus.BC")
+clonetime <- unique(clone$time[clone$Cluster %in% clone_1$Cluster])
 write.csv(clone,"clone.csv",row.names = F,quote=F)
 timeclu<-unlist(lapply(unique(paste(clone$time,clone$clone,sep = "_")),function(x){strsplit(x,"_")[[1]][2]}))
 clone<-clone[clone$clone %in%  as.character(data.frame(table(timeclu))$timeclu[data.frame(table(timeclu))$Freq>1]),]
 write.csv(clone,"clone_2.csv",row.names = F,quote=F)
+
+clone1 <- clone[clone$time == clonetime,]
+tab1 <- acast(clone1,clone~Cluster)
+tab1 <- t(apply(tab1,1,function(x){x/sum(x)}))
+
 pdf("clone_size_log2.pdf",width = 4,height = 3)
 plot(density(log2(table(clone$clone))))
 dev.off()
