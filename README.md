@@ -59,7 +59,7 @@ The most important file is *res/clone_final.tsv*, include imformation of barcode
 
 **Step3 (optional)**: Calculate cells' relationship span multiple groups and results visualization.
 ```
-Rscript similarity.R 0.5 group1/res/clone_final.tsv group2/res/clone_final.tsv
+Rscript similarity.R 0.5 group1/res/clone_final.tsv group2/res/clone_final.tsv 0.6
 ```
 Output of this step in directory *spanres*.<br />
 <br />
