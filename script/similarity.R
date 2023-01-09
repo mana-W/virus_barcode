@@ -104,15 +104,37 @@ rm(n,i,ind,test)
 clone_names<-lapply(c(1:length(clone_names)),change_form_stat)
 clone_names<-do.call("rbind",clone_names)
 clone<-merge(clone,clone_names,by="Virus.BC")
-clonetime <- unique(clone$time[clone$Cluster %in% clone_1$Cluster])
 write.csv(clone,"clone.csv",row.names = F,quote=F)
+
+clonetime1 <- unique(clone$time[clone$Cluster %in% clone_1$Cluster])
+clonetime2 <- unique(clone$time[clone$Cluster %in% clone_2$Cluster])
+clone1 <- clone[clone$time == clonetime,]
+tab1 <- acast(clone1,clone~Cluster)
+tab1 <- t(apply(tab1,1,function(x){x/sum(x)}))
+tab1 <- data.frame(tab1)
+tab1$clone <- rownames(tab1)
+tab1 <- melt(tab1)
+names(tab1)[2]<-"Cluster"
+tab1 <- tab1[tab1$value>prothresh,]
+
+clone2 <- clone[clone$time == clonetime2,]
+tab2 <- acast(clone2,clone~Cluster)
+tab2 <- t(apply(tab2,1,function(x){x/sum(x)}))
+tab2 <- data.frame(tab2)
+tab2$clone <- rownames(tab2)
+tab2 <- melt(tab2)
+names(tab2)[2]<-"Cluster"
+tab2 <- tab2[tab2$value>prothresh,]
+taball <- rbind(tab1,tab2)
+taball <- taball[,c(1,2)]
+clone <- merge(clone,taball,by=c("clone","Cluster"))
+clone <- clone[,c(3,4,5,2,6,1)]
+
 timeclu<-unlist(lapply(unique(paste(clone$time,clone$clone,sep = "_")),function(x){strsplit(x,"_")[[1]][2]}))
 clone<-clone[clone$clone %in%  as.character(data.frame(table(timeclu))$timeclu[data.frame(table(timeclu))$Freq>1]),]
 write.csv(clone,"clone_2.csv",row.names = F,quote=F)
 
-clone1 <- clone[clone$time == clonetime,]
-tab1 <- acast(clone1,clone~Cluster)
-tab1 <- t(apply(tab1,1,function(x){x/sum(x)}))
+
 
 pdf("clone_size_log2.pdf",width = 4,height = 3)
 plot(density(log2(table(clone$clone))))
