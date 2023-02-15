@@ -1,5 +1,6 @@
 
 **Barlin**
+https://zenodo.org/badge/390650867.svg
 ===========
 
 If your data include UMI、cell barcode and exogenous virus barcode <br />
